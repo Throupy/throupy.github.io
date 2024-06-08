@@ -1,7 +1,7 @@
 ---
 title: File Inclusion
 author: Throupy
-date: 2024-06-09 00:00:00 +0000
+date: 2024-06-08 00:00:00 +0000
 categories: [CTF]
 tags: [CTF, Web]
 ---
