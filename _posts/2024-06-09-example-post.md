@@ -1,10 +1,9 @@
 ---
 title: Example Post
 author: owen
-date: 2024-06-09 14:10:00 +0800
+date: 2024-02-02 14:10:00 +0800
 categories: [Blogging, Tutorial]
 tags: [writing]
-render_with_liquid: false
 ---
 
 # Title
