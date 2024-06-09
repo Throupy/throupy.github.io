@@ -7,6 +7,8 @@ tags: [CTF, Web]
 ---
 
 A writeup for the TryHackMe room called `Airplane`
+
+
 The IP for my machine was `10.10.70.6`, first add it to hosts file.
 ```bash
 echo "10.10.70.6 airplane.thm" | sudo tee -a /etc/hosts
