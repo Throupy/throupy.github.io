@@ -47,7 +47,9 @@ In order to try and steal `id_rsa` for every user:
 2. Add a payload marker on the USER part of the `../../../../../home/USER/.ssh/id_rsa`
 3. Set the payload list to the result `users.txt` from the `cut` command.
 4. Launch attack and monitor for results with the largest length.
+
 Sadly, this is not yield any results. Let's move onto other services instead.
+
 ## X11 Server, or not...
 According to `nmap` service detection, the service on port 6048/TCP is X11, which is some sort of tiling / window manager. There are various commands we can use to query this service:
 ### Poking the X11 Service
