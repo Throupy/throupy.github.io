@@ -160,6 +160,7 @@ hudson
 We are the `hudson` user - we have initial access!
 > There is no user.txt in `hudson` home directory, it's likely we need to laterally move to `carlos` first.
 > {: .prompt-tip }
+
 ## Lateral Movement to `carlos` User
 During some superficial enumeration of the machine, I looked for binaries with the SUID bit set using the following command:
 ```zsh
