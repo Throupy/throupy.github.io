@@ -1,13 +1,12 @@
 ---
-title: THM - Airplane
+title: THM - Include
 author: Throupy
 date: 2024-06-09 00:00:00 +0000
 categories: [CTF]
 tags: [CTF, Web]
 ---
 
-A writeup for the TryHackMe room called `Include`
-
+A writeup for the TryHackMe room called `Include`.
 
 The TryHackMe room "Include" demonstrates exploiting a web application through Local File Inclusion (LFI) vulnerabilities. By performing thorough enumeration and leveraging SSRF and LFI techniques, sensitive information was extracted, leading to credential discovery and eventually achieving remote code execution via log poisoning.
 
