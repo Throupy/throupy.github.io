@@ -1,12 +1,10 @@
 ---
 title: THM - Airplane
-author: Throupy
+description: A writeup for the TryHackMe room called Airplane
 date: 2024-06-09 00:00:00 +0000
 categories: [CTF]
-tags: [CTF, Web]
+tags: [ctf, web]
 ---
-
-A writeup for the TryHackMe room called `Airplane`
 
 
 The IP for my machine was `10.10.70.6`, first add it to hosts file.

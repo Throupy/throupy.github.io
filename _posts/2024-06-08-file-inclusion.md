@@ -1,9 +1,9 @@
 ---
 title: File Inclusion
-author: Throupy
+description: An overview of diffent file inclusion methods
 date: 2024-06-08 00:00:00 +0000
 categories: [CTF]
-tags: [CTF, Web]
+tags: [ctf, web]
 ---
 
 Also known as directory traversal, file inclusion is a vulnerability which allows an attacker to read operating system resources, such as local files on the server. This vulnerability is exploited by manipulating and abusing the web application’s URL to locate and access files stored outside of the application’s root directory.
