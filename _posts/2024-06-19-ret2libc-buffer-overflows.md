@@ -60,7 +60,9 @@ pwndbg> clclic -l <RSP_OUTPUT>
 Alternatively, you can use the `pwntools` template script, found [here](https://github.com/Throupy/offsec-scripts/blob/main/pwntools_template.py). This script contains built-in functionality to calculate the offset. Credit to `CryptoCat` for this script.
 ### Step 2 - Leaking Function Addresses
 Next, we need to identify the memory address of some common function from the application. In order to do this, we need to control the `write` function within the application. Let's look in `ghidra` at the parameters and registers used by the function
+
 ![WRITE_C](/assets/img/ret2libc/write_c.png)
+
 The buffer (data to write) is stored in the `RSI` register. If we can overwrite this register, then we can control what is written. Let's try to overwrite this and write (leak) some address from the global offset table. To do this, we will first need some gadgets, let's use `ropper` to find some.
 
 > Gadgets are short sequences of instructions which end in a `ret` (return) instruction. **They are used to manipulate the program's stack and registers**, allowing attackers to bypass certain defences e.g. non-executable stack (NX).
@@ -179,5 +181,6 @@ Sometimes you will calculate the offsets locally, but they won't work because a 
 
 For example, you will need to work your way through each version on the right under "results", copying and running the exploit script with the offsets for the read, write, system, etc functions. It's tedious, but it'll get you there.
 ## References / Credits
-https://systemoverlord.com/2017/03/19/got-and-plt-for-pwning.html
-https://www.youtube.com/watch?v=Bvd9xnBoWaA
+
+- https://systemoverlord.com/2017/03/19/got-and-plt-for-pwning.html
+- https://www.youtube.com/watch?v=Bvd9xnBoWaA
