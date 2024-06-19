@@ -55,7 +55,7 @@ We need to locate the instruction pointer offset. This is how many characters we
 pwndbg> cyclic 1000
 # copy this output, paste into buffer overflow location
 # when program crashes in GDB, copy output of RSP
-pwndbg> clclic -l <RSP_OUTPUT>
+pwndbg> cyclic -l <RSP_OUTPUT>
 ```
 Alternatively, you can use the `pwntools` template script, found [here](https://github.com/Throupy/offsec-scripts/blob/main/pwntools_template.py). This script contains built-in functionality to calculate the offset. Credit to `CryptoCat` for this script.
 ### Step 2 - Leaking Function Addresses
