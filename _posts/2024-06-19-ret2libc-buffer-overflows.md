@@ -4,6 +4,7 @@ description: Some information about Ret2Libc Buffer Overflow Attacks, with a foc
 date: 2024-06-19 00:00:00 +0000
 categories: [CTF, Low-Level]
 tags: [ctf, binary]
+image: /assets/img/banners/ghidra.png
 ---
 
 ## Introduction
