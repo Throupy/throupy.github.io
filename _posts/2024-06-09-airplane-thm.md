@@ -4,7 +4,7 @@ description: A writeup for the TryHackMe room called Airplane
 date: 2024-06-09 00:00:00 +0000
 categories: [CTF]
 tags: [ctf, web]
-image: /assets/img/banners/airplane.jpg
+image: /assets/img/banners/airplane.webp
 ---
 
 
