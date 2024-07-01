@@ -4,6 +4,7 @@ description: My writeup for the TryHackMe mKingdom machine
 date: 2024-06-17 00:00:00 +0000
 categories: [CTF]
 tags: [ctf, web]
+image: /assets/img/banners/crown.png
 ---
 
 
