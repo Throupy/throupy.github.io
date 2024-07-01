@@ -4,7 +4,7 @@ description: Notes detailing how to attack kerberos as part of a RT engagement o
 date: 2024-06-12 13:29:00 +0100
 categories: [Active Directory]
 tags: [active directory, kerberos, windows]
-image: /assets/img/banners/attacking_kerberos.webp
+image: /assets/img/banners/dogs.jpg
 ---
 
 # Attacking Kerberos
