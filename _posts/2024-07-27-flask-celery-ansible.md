@@ -18,7 +18,7 @@ Managing infrastructure efficiently is crucial for modern software development a
 
 Our project utilizes Flask for the web interface, Celery for task management, and Redis as a message broker. The Ansible playbook is executed asynchronously, allowing the web application to remain responsive while the playbook runs. The progress of the playbook execution is tracked and displayed to the user via client-side JavaScript.
 
-You can find the complete codebase on GitHub [here](https://github.com/Throupy/flask-celery-ansible). This post will focus on the key parts of the setup and implementation.
+You can find the complete codebase on GitHub [here](https://github.com/Throupy/blog-projects/tree/main/flask-celery-ansible). This post will focus on the key parts of the setup and implementation.
 
 ## Key Components and Setup
 
@@ -259,4 +259,4 @@ After adding some front-end HTML, which can be found in the GitHub repository, y
 
 Integrating Ansible playbooks into a Flask application using Celery allows for efficient asynchronous execution and monitoring. This setup provides a seamless user experience, where users can start tasks and receive real-time updates on their progress. This system can be extended with additional features such as authentication, detailed logging, and more sophisticated error handling to cater to a variety of use cases.
 
-For the full code and additional setup details, visit the [GitHub repository](https://github.com/Throupy/flask-celery-ansible). 
+For the full code and additional setup details, visit the [GitHub repository](https://github.com/Throupy/blog-projects/tree/main/flask-celery-ansible). 
