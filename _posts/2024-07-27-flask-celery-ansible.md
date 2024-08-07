@@ -2,8 +2,8 @@
 title: Flask, Celery, and Ansible
 description: Implementing Celery with Flask for Asynchronous Ansible Playbook Execution
 date: 2024-07-27 00:00:00 +0000
-categories: [Web]
-tags: []
+categories: [Flask]
+tags: [flask, web]
 image: /assets/img/banners/flask-celery-ansible.png
 ---
 
