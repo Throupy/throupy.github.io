@@ -1,5 +1,5 @@
 ---
-title: Creating Flask Applications using an Application Factory Approach
+title: Creating Flask Applications using the Application Factory Approach
 description: An overview of the Flask "application factory" approach and its benefits.
 date: 2024-08-07 00:00:00 +0000
 categories: [CTF]
