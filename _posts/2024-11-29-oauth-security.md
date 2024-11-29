@@ -144,7 +144,7 @@ Assume the following `malicious_redirect.html` page on the compromised domain:
 </script>
 ```
 
-The attacker can send Tom the link [`http://dev.bistro.thm:8002/redirect_uri.html`](http://dev.bistro.thm:8002/redirect_uri.html) through social engineering / CSRF attack. The victim clicks on the link, which takes them to the URL and presents them with some “Log in with OAuth” phishing page. When the victim clicks the log in button, they are redirected to the `malicious_redirect.html` page, where their newly generated and valid authorisation code is intercepted and captured by the attacker.
+The attacker can send Tom the link `http://dev.bistro.thm:8002/redirect_uri.html` through social engineering / CSRF attack. The victim clicks on the link, which takes them to the URL and presents them with some “Log in with OAuth” phishing page. When the victim clicks the log in button, they are redirected to the `malicious_redirect.html` page, where their newly generated and valid authorisation code is intercepted and captured by the attacker.
 
 This authorisation code can be swapped for an access token from some callback endpoint. The location of this endpoint varies by provider, but `django-oauth-toolkit` uses `/callback`.
 
