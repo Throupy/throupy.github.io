@@ -4,7 +4,6 @@ description: An overview of the Flask "application factory" approach and its ben
 date: 2024-08-07 00:00:00 +0000
 categories: [Flask]
 tags: [flask, web]
-image: /assets/img/banners/factory.png
 ---
 
 # Creating Flask Applications using an Application Factory Approach
