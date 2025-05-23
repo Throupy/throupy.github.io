@@ -67,7 +67,7 @@ Install-AdcsEnrollmentWebService \
 
 In the above commands, `<SSL_CERT_THUMBPRINT>` refers to the thumbprint of the certificate to be used to bind to IIS.
 
-The `Install-AdcsEnrollmentWebService` command installs the CES service to use the CA for the computer name [`CA001.example.com`](http://CA001.example.com) and the CA common name of `example-CA001-CA`. The identity of the CES is specified as the default application pool identity.
+The `Install-AdcsEnrollmentWebService` command installs the CES service to use the CA for the computer name `CA001.example.com` and the CA common name of `example-CA001-CA`. The identity of the CES is specified as the default application pool identity.
 
 ### Check IIS Manager Console
 
