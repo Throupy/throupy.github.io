@@ -3,7 +3,7 @@ title: Configuring ADCS CEPCES For Key-Based Certificate Renewal
 description: A walkthrough on how to set up CEPCES for initial enrolment and subsequent key-based certificate renewal.
 date: 2025-05-23 00:00:00 +0000
 categories: []
-tags: [PKI]
+tags: [PKI, active directory, windows]
 ---
 
 # Introduction

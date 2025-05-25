@@ -3,7 +3,7 @@ title: Setting up a Lab Environment for PKI Investigations
 description: A walkthrough on how to set up a virtualised lab environment for testing and investigating ADCS.
 date: 2025-05-25 00:00:00 +0000
 categories: []
-tags: [PKI]
+tags: [PKI, active directory, windows]
 ---
 
 # Introduction
