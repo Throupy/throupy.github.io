@@ -23,40 +23,7 @@ CES/CEP is critical for scenarios involving non-domain-joined devices (e.g., mob
 
 The diagram below shows the CES CEP workflow in action.
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Client as 🖥️ Client (Non-domain / MDM / macOS)
-    participant CEP as 🌐 CEP (Policy Service)
-    participant CES as 🧭 CES (Enrollment Service)
-    participant DC as 🗂️ Domain Controller (LDAP)
-    participant CA as 🏛️ AD CS Enterprise CA
-
-    %% Initial Enrollment
-    Client->>CEP: HTTPS (SOAP) - GetPolicies Request
-    note right of CEP: Auth via Cert/Kerb/Password
-    CEP->>DC: LDAP - Fetch certificate templates\n(filter: pKICertificateTemplate)
-    DC-->>CEP: Available templates (based on ACLs)
-    CEP-->>Client: XML with templates, CA config, auth methods
-
-    Client->>Client: Generate Keypair + PKCS#10 CSR
-
-    Client->>CES: HTTPS (SOAP) - SubmitRequest
-    note right of CES: Auth via same method as CEP
-    CES->>CA: DCOM/RPC - ICertRequestD2::Submit()\n(includes CSR, template, attributes)
-    CA->>DC: LDAP - Validate identity, template, permissions
-    CA-->>CES: Certificate (X.509, base64)
-    CES-->>Client: Return issued certificate
-
-    %% Renewal Flow
-    Note over Client: ~80% of cert lifetime passes
-    Client->>CES: HTTPS (SOAP) - RenewCertificate\n(useExistingKey=true)
-    note right of CES: Auth via existing certificate
-    CES->>CA: DCOM/RPC - Submit renewal request
-    CA-->>CES: New certificate (same key)
-    CES-->>Client: Return renewed certificate
-
-```
+![Mermaid Diagram](../assets/img/cepces/mermaid.png)
 
 # Typical Certificate Request Process
 
@@ -179,12 +146,7 @@ MS-WSTEP, or the Web Services for Enrolment of X.509 Certificates extension, is 
 
 To begin with, the client connects to the CEP service via HTTPS. The information about where this is located is communicated to the user via a group policy, namely the enrolment policy
 
-<aside>
-❗
-
 The Group Policy responsible for this is located at `Computer Configuration` > `Policies` > `Windows Settings` > `Security Settings` > `Public Key Policies` > `Certificate Services Client` > `Auto-Enrolment` and `Certificate Enrolment Policy`.
-
-</aside>
 
 The method by which the client authenticates to the CEP service is configured during setup of the CEP server, and is one of the following:
 
