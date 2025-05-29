@@ -41,12 +41,8 @@ In summary, the `pKICertificateTemplate` and `msPKI-Enterprise-Oid` objects can 
 
 All of this information is stored in AD, and can be retrieved by browsing the Configuration partition of the AD forest.
 
-<aside>
-❗
-
 You can find this information by logging onto the DC, opening the run menu, typing `adsiedit.msc`, and navigating to the Configuration partition.
 
-</aside>
 
 ## Connection to the Certification Authority via RPC and DCOM
 
